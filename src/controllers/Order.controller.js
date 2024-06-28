@@ -1,8 +1,17 @@
 const Order = require('../models/Order');
 
+const deleteAllRecords = async (req, res) => {
+  try {
+    await Order.deleteMany();
+    res.status(200).json({message: "All records deleted successfully!"})
+  } catch (error) {
+    res.status(400).json({message: "Unable to delete all records!"})
+  }
+}
+
 const createOrder = async (req, res) => {
   try {
-    console.log(req.body);
+    console.log("order data", req.body);
     const order = new Order(req.body);
     await order.save();
     res.status(201).json(order);
@@ -23,4 +32,4 @@ const getOrder = async (req, res) => {
   }
 };
 
-module.exports = { createOrder, getOrder };
+module.exports = { createOrder, getOrder, deleteAllRecords };

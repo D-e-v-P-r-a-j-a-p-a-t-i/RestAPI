@@ -41,7 +41,7 @@ const authUser = async (req, res) => {
       }
       const user = await User.findOne({ email });
   
-      console.log(user);
+      console.log("in user auth",user);
       if (!user) {
         return res.status(400).send({ error: "Invalid email or password." });
       }
