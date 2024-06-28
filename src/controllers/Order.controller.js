@@ -14,7 +14,9 @@ const createOrder = async (req, res) => {
     console.log("order data", req.body);
     const order = new Order(req.body);
     await order.save();
-    res.status(201).json(order);
+
+    const populatedOrder = await Order.findById(order._id).populate('products.product').exec();
+    res.status(201).json(populatedOrder);
   } catch (err) {
     console.error('Error creating order:', err.message);
     res.status(400).json({ message: err.message });

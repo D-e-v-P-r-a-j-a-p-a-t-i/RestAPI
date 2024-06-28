@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const addToCart = async (req, res) => {
   try {
     const { userId, productId, quantity } = req.body;
-
+    console.log(quantity)
     if (!userId || !productId || !quantity) {
       return res.status(400).json({ message: 'User ID, product ID, and quantity are required' });
     }
@@ -16,7 +16,12 @@ const addToCart = async (req, res) => {
     if (cart != null) {
       const productIndex = cart.products.findIndex(p => p.productId.toString() === productId);
       if (productIndex > -1) {
-        cart.products[productIndex].quantity += quantity;
+        if(quantity === 1){
+          cart.products[productIndex].quantity += quantity;
+        }
+        else{
+          cart.products[productIndex].quantity = quantity;
+        }
       } else {
         cart.products.push({ productId, quantity });
       }
